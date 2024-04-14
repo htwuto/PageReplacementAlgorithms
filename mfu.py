@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-def lfu(reference_string, frames):
+def mfu(reference_string, frames):
     result_matrix = [['' for _ in range(frames)] for _ in range(len(reference_string))]
     fault_count = 0
     page = [9999] * frames
@@ -22,19 +22,19 @@ def lfu(reference_string, frames):
 
         else:
             fault_count += 1
-            least = 9999
+            most = -9999
             old = 9999
             if 9999 in page:
                 page[rp] = reference_string[i]
                 rp += 1
             else:
                 for j in range(frames):
-                    if map_cnt[page[j]] < least and map_cnt[page[j]] != 0:
-                        least = map_cnt[page[j]]
+                    if map_cnt[page[j]] >= most and map_cnt[page[j]] != 0:
+                        most = map_cnt[page[j]]
                         old = queue.index(page[j])
                         rp = j
-                    elif map_cnt[page[j]] == least and queue.index(page[j]) < old:
-                        least = map_cnt[page[j]]
+                    elif map_cnt[page[j]] == most and queue.index(page[j]) < old:
+                        most = map_cnt[page[j]]
                         old = queue.index(page[j])
                         rp = j
                 page[rp] = reference_string[i]

@@ -2,7 +2,7 @@ def opt(reference_string, frames):
     result_matrix = [['' for _ in range(frames)] for _ in range(len(reference_string))]
     fault_count = 0
     page = [9999] * frames
-    opt = [0] * len(reference_string)
+    opt = [0] * frames
 
     for i in range(frames):
         page[i] = 9999
@@ -28,9 +28,13 @@ def opt(reference_string, frames):
                     opt[j] = 9999
 
             maximum = -9999
+
             for j in range(frames):
                 if opt[j] > maximum:
                     maximum = opt[j]
+                    repeat = j
+
+                if opt[j] == maximum and maximum == 9999 and page[j-1] != 9999:
                     repeat = j
 
             page[repeat] = reference_string[i]
